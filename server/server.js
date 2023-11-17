@@ -9,10 +9,7 @@ const APIPORT = 3000;
 const app = express();
 
 const pool = new Pool ({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: "my_pc_build",
-  password: process.env.DB_PASSWORD,
+  connectionString: process.env.URL
   port: process.env.PORT
 })
 
