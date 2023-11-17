@@ -1,0 +1,11 @@
+#container {
+  width: 80vw;
+  height: 80vh;
+  flex: wrap;
+  flex-wrap: auto;
+  margin: auto;
+  padding: 5%;
+  border-radius: 20px;
+  background-color: #eb5e28;
+
+}

@@ -112,6 +112,20 @@ app.get('/api/POWER', async (req,res) => {
   }
 })
 
+app.post('/api/sign-in', async (req,res) => {
+  console.log('Users Incoming')
+  const userData = req.body
+  console.log(userData)
+  try {
+    const results = await pool.query(`SELECT id FROM users WHERE name_user=$1 AND password_user=$2`,[userData.userName, userData.userPassword])
+    res.status(200).json(results.rows)
+    console.log('id incoming')
+  } catch(err) {
+    console.error(err)
+    res.status(400).send('Bad Request')
+  }
+})
+
 app.use((req,res,next) => {
   next({message: 'The path you are looking for does not exist', status:400})
 })
