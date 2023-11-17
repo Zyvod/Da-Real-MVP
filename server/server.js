@@ -2,14 +2,16 @@ import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
 import morgan from 'morgan';
+import dotenv from 'dotenv';
 const { Pool } = pg;
+dotenv.config();
 
 const APIPORT = 3000;
 
 const app = express();
 
 const pool = new Pool ({
-  connectionString: process.env.URL
+  connectionString: process.env.DB_URL
 })
 
 app.use(express.static('public'));
