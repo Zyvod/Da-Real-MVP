@@ -10,7 +10,6 @@ const app = express();
 
 const pool = new Pool ({
   connectionString: process.env.URL
-  port: process.env.PORT
 })
 
 app.use(express.static('public'));
