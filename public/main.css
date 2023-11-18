@@ -1,11 +1,121 @@
-#container {
-  width: 80vw;
-  height: 80vh;
-  flex: wrap;
-  flex-wrap: auto;
-  margin: auto;
-  padding: 5%;
-  border-radius: 20px;
-  background-color: #eb5e28;
+body {
+  background-color:  #E5DCC5  ;
+}
 
+/* color palette - 1
+#fffcf2 - white
+#eb5e28 - orange
+#ccc5b9 - mid gray
+#403d39 - dark gray
+#252422 - charcoal
+ */
+
+ /* color palette - 2
+ #2D2D2A - jet
+ #D45113 - syracuse orange
+ #4C4C47 - Davy's Gray
+ #848FA5 - cool gray
+ #E5DCC5 - pearl
+ */
+
+#container {
+  width: 85vw;
+  margin: auto;
+  padding: 2em;
+  border-radius: 20px;
+  background-color: #2D2D2A  ;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#welcomeHeader {
+  width: 90%;
+  height: 5%;
+  background-color:#4E576A ;
+  border-radius: 20px;
+  padding: 1em;
+  display: flexbox;
+  justify-content:space-evenly;
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+#homeBtn {
+  width: 15%;
+  height: 5vh;
+  border-radius: 15px;
+  background-color: #848FA5;
+  font-weight: bold;
+  font-size: .5em;
+}
+
+#welcomemessage {
+  width: 60%;
+  height: 50%;
+  background-color:#4E576A;
+  border-radius: 20px;
+  padding: 1em;
+  text-align: left;
+}
+
+#p1{
+  font-size: 3em;
+  font-weight: bold;
+  margin-left: .3em;
+}
+
+#p2{
+  font-size: 1.5em;
+  margin-left: 1em;
+}
+
+#signBtn {
+  width: 15%;
+  height: 5vh;
+  margin-top: 3em;
+  margin-left: 1.5em;
+  border-radius: 15px;
+  background-color: #848FA5;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+#browseBtn {
+  width: 15%;
+  height: 5vh;
+  margin-top: 3em;
+  margin-left: 1.5em;
+  border-radius: 15px;
+  background-color: #848FA5;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+#browseSelect {
+  width: 75vw;
+  background-color:#4E576A ;
+  border-radius: 20px;
+  margin-bottom: 5vh;
+  padding: 1em;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.panel {
+  width: 20vw;
+  height: 35vh;
+  background-color:#D45113;
+  border-radius: 20px;
+  margin-left: 2vw;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
 }

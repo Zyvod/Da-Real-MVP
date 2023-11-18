@@ -12,6 +12,11 @@ const app = express();
 
 const pool = new Pool ({
   connectionString: process.env.DB_URL
+  // host: 'dpg-clbdd2ent67s73adgshg-a',
+  // user: 'daddyrehab',
+  // database: 'my_pc_build',
+  // password: '1aa6diQuQlfZn5J14G7Xg77DqVX07zqc',
+  // port: 5432
 })
 
 app.use(express.static('public'));
