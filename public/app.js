@@ -166,7 +166,56 @@ async function populateResults(resultContainer,content) {
 // console.log(cpuData)
   switch (content) {
     case 'Browse CPUs':
-            console.log(cpuData)
+      cpuData.forEach((cpu) => {
+        const productPanel = $('<div>', {
+          class: 'panel',
+          id: `${cpu.id}`
+        })
+
+        const cpuInfo = $('<div>',{
+          class: 'cpu-card'
+        })
+
+        const cpuTitle = $('<h>', {
+          class: 'title',
+          text: `${cpu.name_cpu}`
+        })
+        cpuInfo.append(cpuTitle)
+
+        const cpuStats = $('<p>', {
+          html: `Base Clock: ${cpu.base_clock}</br>Boost Clock: ${cpu.boost_clock}</br>Core Count: ${cpu.core_count}</br>Socket Type: ${cpu.socket}`
+      });
+        cpuInfo.append(cpuStats)
+
+        const price = $('<p>', {
+          class: 'price',
+          text: `$${cpu.price}`
+        })
+        cpuInfo.append(price)
+
+        const linkContainer = $('<p>', {
+          class: 'link-container'
+        })
+
+        const link = $('<a>', {
+          class: 'link',
+          text: 'Find Online',
+          href: cpu.link,
+          target: '_blank'
+        })
+        linkContainer.append(link)
+        cpuInfo.append(linkContainer)
+
+        const image = $('<img>' , {
+          src: `assets/images/cpu/cpu${cpu.id}.jpg`,
+          width: `10vw`,
+          height: `20vh`
+        })
+
+        productPanel.append(image)
+        productPanel.append(cpuInfo)
+        resultContainer.append(productPanel)
+      })
     case 'Browse Motherboards':
 
     case 'Browse CPU Coolers':
