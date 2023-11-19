@@ -52,9 +52,7 @@ browseBtn.on('click', (e) => {
 async function listOfParts() {
   const browseSelect = $('<div>')
     browseSelect.attr('id', 'browseSelect')
-  while(browseSelect.children(0).length > 0) {
     browseSelect.empty();
-  }
 
   const cpuPanel = $('<div>')
     cpuPanel.attr('class','panel')
@@ -62,7 +60,6 @@ async function listOfParts() {
     cpuBtn.text('Browse CPUs')
     cpuBtn.attr('class','panelBtn')
     cpuBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
       populateResults(browseSelect, e.target.textContent)
     })
     cpuPanel.append(cpuBtn)
@@ -73,7 +70,7 @@ async function listOfParts() {
     boardBtn.text('Browse Motherboards')
     boardBtn.attr('class','panelBtn')
     boardBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     boardPanel.append(boardBtn)
 
@@ -83,7 +80,7 @@ async function listOfParts() {
     coolerBtn.text('Browse CPU Coolers')
     coolerBtn.attr('class','panelBtn')
     coolerBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     coolerPanel.append(coolerBtn)
 
@@ -93,7 +90,7 @@ async function listOfParts() {
     gpuBtn.text('Browse GPUs')
     gpuBtn.attr('class','panelBtn')
     gpuBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     gpuPanel.append(gpuBtn)
 
@@ -103,7 +100,7 @@ async function listOfParts() {
     ramBtn.text('Browse Memory')
     ramBtn.attr('class','panelBtn')
     ramBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     ramPanel.append(ramBtn)
 
@@ -113,7 +110,7 @@ async function listOfParts() {
     ssdBtn.text('Browse Storage')
     ssdBtn.attr('class','panelBtn')
     ssdBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     ssdPanel.append(ssdBtn)
 
@@ -123,7 +120,7 @@ async function listOfParts() {
     caseBtn.text('Browse Cases')
     caseBtn.attr('class','panelBtn')
     caseBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     casePanel.append(caseBtn)
 
@@ -133,7 +130,7 @@ async function listOfParts() {
     powerBtn.text('Browse PSUs')
     powerBtn.attr('class','panelBtn')
     powerBtn.on('click', async (e) => {
-      console.log(e.target.textContent)
+      populateResults(browseSelect, e.target.textContent)
     })
     powerPanel.append(powerBtn)
 
@@ -160,73 +157,20 @@ async function listOfParts() {
 }
 
 async function populateResults(resultContainer,content) {
-  while (resultContainer.children().length > 0) {
-    resultContainer.empty();
-// console.log(typeof content)
-// console.log(cpuData)
+  resultContainer.empty();
   switch (content) {
     case 'Browse CPUs':
-      cpuData.forEach((cpu) => {
-        const productPanel = $('<div>', {
-          class: 'panel',
-          id: `${cpu.id}`
-        })
-
-        const cpuInfo = $('<div>',{
-          class: 'cpu-card'
-        })
-
-        const cpuTitle = $('<h>', {
-          class: 'title',
-          text: `${cpu.name_cpu}`
-        })
-        cpuInfo.append(cpuTitle)
-
-        const cpuStats = $('<p>', {
-          html: `Base Clock: ${cpu.base_clock}</br>Boost Clock: ${cpu.boost_clock}</br>Core Count: ${cpu.core_count}</br>Socket Type: ${cpu.socket}`
-      });
-        cpuInfo.append(cpuStats)
-
-        const price = $('<p>', {
-          class: 'price',
-          text: `$${cpu.price}`
-        })
-        cpuInfo.append(price)
-
-        const linkContainer = $('<p>', {
-          class: 'link-container'
-        })
-
-        const link = $('<a>', {
-          class: 'link',
-          text: 'Find Online',
-          href: cpu.link,
-          target: '_blank'
-        })
-        linkContainer.append(link)
-        cpuInfo.append(linkContainer)
-
-        const image = $('<img>' , {
-          src: `assets/images/cpu/cpu${cpu.id}.jpg`,
-          width: `10vw`,
-          height: `20vh`
-        })
-
-        productPanel.append(image)
-        productPanel.append(cpuInfo)
-        resultContainer.append(productPanel)
-      })
+      getAllCpus(resultContainer)
+      break;
     case 'Browse Motherboards':
-
+      getAllBoards(resultContainer)
+      break;
     case 'Browse CPU Coolers':
-        return function () {
-            console.log(coolerData);
-        };
+        getAllCoolers(resultContainer)
+        break;
     case 'Browse GPUs':
-        return function () {
-            // Callback function for GPUs
-            console.log(gpuData);
-        };
+      getAllGpus(resultContainer)
+      break;
     case 'Browse Memory':
         return function () {
             // Callback function for Memory
@@ -257,8 +201,8 @@ async function populateResults(resultContainer,content) {
             // Default Callback function
             console.log('Default Callback');
         };
+  }
 }
-}}
 
 async function getAllData() {
   try{
@@ -279,4 +223,258 @@ async function getAllData() {
   } catch(error) {
     console.error('Error:',error)
   }
+}
+
+function getAllCpus (resultContainer) {
+  cpuData.forEach((cpu) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${cpu.id}`
+    })
+
+    const cpuInfo = $('<div>',{
+      class: 'cpu-card'
+    })
+
+    const cpuTitle = $('<h>', {
+      class: 'title',
+      text: `${cpu.name_cpu}`
+    })
+    cpuInfo.append(cpuTitle)
+
+    const cpuStats = $('<p>', {
+      html: `Base Clock: ${cpu.base_clock}<br>
+      Boost Clock: ${cpu.boost_clock}<br>
+      Core Count: ${cpu.core_count}<br>
+      Socket Type: ${cpu.socket}`
+  });
+    cpuInfo.append(cpuStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${cpu.price}`
+    })
+    cpuInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: cpu.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    cpuInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/cpu/cpu${cpu.id}.jpg`,
+      width: `8vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(cpuInfo)
+    resultContainer.append(productPanel)
+ }
+)}
+
+function getAllBoards (resultContainer) {
+  boardData.forEach((board) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${board.id}`
+    })
+
+    const boardInfo = $('<div>',{
+      class: 'board-card'
+    })
+
+    const boardTitle = $('<h>', {
+      class: 'title',
+      text: `${board.name_board}`
+    })
+    boardInfo.append(boardTitle)
+
+    let wifi
+    if ( board.wifi === false ) {
+      wifi = 'No'
+    } else {
+      wifi = 'Yes'
+    }
+
+    const boardStats = $('<p>', {
+      html: `Form Factor: ${board.form_factor} <br>
+      M.2 Slots: ${board.m2_slots} <br>
+      Memory Slots: ${board.memory_slots} <br>
+      Memory Type: ${board.memory_type} <br>
+      PCIe16 Slots: ${board.pcie16_slots} <br>
+      Socket Type: ${board.socket} <br>
+      Wifi: ${wifi}`
+  });
+    boardInfo.append(boardStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${board.price}`
+    })
+    boardInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: board.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    boardInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/motherboards/board${board.id}.jpg`,
+      width: `8vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(boardInfo)
+    resultContainer.append(productPanel)
+  }
+)}
+
+function getAllCoolers(resultContainer) {
+  coolerData.forEach((cooler) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${cooler.id}`
+    })
+
+    const coolerInfo = $('<div>',{
+      class: 'cooler-card'
+    })
+
+    const coolerTitle = $('<h>', {
+      class: 'title',
+      text: `${cooler.name_cooler}`
+    })
+    coolerInfo.append(coolerTitle)
+
+    const coolerStats = $('<p>', {
+      html: `Height: ${cooler.height} <br>
+      Noise Level: ${cooler.noise_level} <br>
+      RPM: ${cooler.rpm}`
+  });
+    coolerInfo.append(coolerStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${cooler.price}`
+    })
+    coolerInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: cooler.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    coolerInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/cpu_cooler/cool${cooler.id}.jpg`,
+      width: `8vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(coolerInfo)
+    resultContainer.append(productPanel)
+ }
+)}
+
+function getAllGpus(resultContainer) {
+  gpuData.forEach((gpu) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${gpu.id}`
+    })
+
+    const gpuInfo = $('<div>',{
+      class: 'gpu-card'
+    })
+
+    const gpuTitle = $('<h>', {
+      class: 'title',
+      text: `${gpu.name_card}`
+    })
+    gpuInfo.append(gpuTitle)
+
+    const gpuStats = $('<p>', {
+      html: `Boost Clock: ${gpu.boost_clock} <br>
+      Core Clock: ${gpu.core_clock} <br>
+      Display Ports: ${gpu.display_ports} <br>
+      HDMI Ports: ${gpu.hdmi_ports} <br>
+      Interface: ${gpu.interface} <br>
+      Memory Size: ${gpu.memory_size} <br>
+      Memory Type: ${gpu.memory_type} <br>`
+  });
+    gpuInfo.append(gpuStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${gpu.price}`
+    })
+    gpuInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: gpu.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    gpuInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/video_cards/card${gpu.id}.jpg`,
+      width: `8vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(gpuInfo)
+    resultContainer.append(productPanel)
+ }
+)
+// get new image for NVIDIA GPU number 2
+}
+
+function getAllRam(resultContainer) {
+
+}
+
+function getAllStorage(resultContainer) {
+
+}
+
+function getAllCases(resultContainer) {
+
+}
+
+function getAllPsus(resultContainer) {
+
 }
