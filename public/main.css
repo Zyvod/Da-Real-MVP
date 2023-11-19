@@ -113,9 +113,18 @@ body {
   margin-top: 4vh;
   margin-bottom: 4vh;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 2em;
   font-weight: bold;
+}
+
+.panelBtn {
+  width: 50%;
+  height: 10vh;
+  border-radius: 15px;
+  background-color: #848FA5;
+  font-weight: bold;
+  font-size: 1.2em;
 }
