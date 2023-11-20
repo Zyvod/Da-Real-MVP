@@ -189,6 +189,46 @@ async function listOfParts(signedIn) {
     })
     allPanel.append(allBtn)
 
+  if (currentBuild.buildName !== 0) {
+    const savePanel = $('<div>',{
+      class: 'panel',
+      id: 'savePanel'
+    })
+
+    const saveBtn = $('<button>', {
+      id: 'saveBtn',
+      text: 'Save Your Build'
+    })
+    saveBtn.on('click', async (e) => {
+      let userData = {
+        cpu: parseInt(currentBuild.cpu.id),
+        board: parseInt(currentBuild.board.id),
+        cooler: parseInt(currentBuild.cooler.id),
+        gpu: parseInt(currentBuild.gpu.id),
+        ram: parseInt(currentBuild.ram.id),
+        ssd: parseInt(currentBuild.ssd.id),
+        buildCase: parseInt(currentBuild.buildCase.id),
+        power: parseInt(currentBuild.power.id),
+        buildName: currentBuild.buildName,
+        userId: loggedId
+      }
+      try {
+        const response = await $.ajax({
+          url: 'http://localhost:3000/api/create-list',
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(userData),
+        })
+        console.log('Save Successful',response)
+       } catch(error) {
+        console.error('Error:',error)
+      }
+  })
+
+    savePanel.append(saveBtn)
+    browseSelect.prepend(savePanel)
+  }
+
   browseSelect.prepend(allPanel)
   browseSelect.prepend(powerPanel)
   browseSelect.prepend(casePanel)
@@ -979,6 +1019,8 @@ function generateUserPage () {
     text: 'Create New Build'
   })
   createListBtn.on('click', (e) => {
+    let userPage = $('.browseSelect')
+    userPage.hide()
     newBuild()
   })
   createListPanel.append(createListBtn)
@@ -1007,9 +1049,34 @@ function newBuild() {
     power: 0,
     buildName: 0
 }
-  let userPage = $('.browseSelect')
+
+let userPage = $('.browseSelect')
+
+let namePanel = $('<div>', {
+  class: 'panel'
+})
+
+let saveName = $('<input>',{
+  id: 'saveName',
+  placeholder: 'Name Your Build'
+})
+
+let nameBtn = $('<button>',{
+  id: 'nameBtn',
+  text: 'name Build'
+})
+
+nameBtn.on('click', (e) => {
+  currentBuild.buildName = saveName.val()
+  console.log(currentBuild.buildName)
+  namePanel.hide()
   userPage.hide()
- listOfParts(signedIn)
+  listOfParts(signedIn)
+})
+
+namePanel.append(saveName)
+namePanel.append(nameBtn)
+container.append(namePanel)
 }
 
 function selectedBuild() {

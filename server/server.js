@@ -163,6 +163,20 @@ app.post('/api/create-user', async (req,res) => {
   }
 })
 
+app.put('/api/create-list', async (req,res) => {
+  console.log('Creating List')
+  const userData = req.body
+  console.log(userData)
+  try {
+    const result = await pool.query(`INSERT INTO build_lists (id_user, list_name,cpu,cpu_cooler,motherboard,ram,storage,video_card,case_id,power_supply) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`,[userData.userId,userData.buildName, userData.cpu, userData.cooler, userData.board, userData.ram, userData.ssd, userData.gpu, userData.buildCase, userData.power
+    ])
+    res.status(200).send('List Created Successfully')
+  } catch(err) {
+    console.error(err)
+    res.status(400).send('Bad Request')
+  }
+})
+
 app.use((req,res,next) => {
   next({message: 'The path you are looking for does not exist', status:400})
 })
