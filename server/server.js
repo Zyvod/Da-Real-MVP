@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 const { Pool } = pg;
 dotenv.config();
 
-const APIPORT = 3000;
+const APIPORT = 5432;
 
 const app = express();
 
