@@ -31,15 +31,15 @@ let currentBuild = {
   buildName: 0
 }
 
-document.addEventListener('DOMContentLoaded', (e) => {
-  if (typeof jQuery !== 'undefined' ) {
-    console.log('jQuery Is Loaded!')
-    getAllData()
-  } else {
-    console.error('JQuery is not loaded!')
-  }
-})
-// getAllData();
+// document.addEventListener('DOMContentLoaded', (e) => {
+//   if (typeof jQuery !== 'undefined' ) {
+//     console.log('jQuery Is Loaded!')
+//     getAllData()
+//   } else {
+//     console.error('JQuery is not loaded!')
+//   }
+// })
+getAllData();
 
 homeBtn.on('click', () => {
   let browseSelect = $('.browseSelect')
