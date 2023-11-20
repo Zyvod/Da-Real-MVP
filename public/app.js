@@ -30,19 +30,8 @@ homeBtn.on('click', () => {
 
 signBtn.on('click', async (e) => {
   console.log('Btn worked');
-
-  try {
-    const response = await $.ajax({
-      url: 'http://localhost:3000/api/sign-in',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(userData),
-    })
-    console.log(response)
-  } catch(error) {
-    console.error('Error:',error)
-  }
-});
+  signInWindow();
+})
 
 browseBtn.on('click', (e) => {
   welcomeMessage.hide()
@@ -166,36 +155,33 @@ async function populateResults(resultContainer,content) {
       getAllBoards(resultContainer)
       break;
     case 'Browse CPU Coolers':
-        getAllCoolers(resultContainer)
-        break;
+      getAllCoolers(resultContainer)
+      break;
     case 'Browse GPUs':
       getAllGpus(resultContainer)
       break;
     case 'Browse Memory':
-        return function () {
-            // Callback function for Memory
-            console.log(ramData);
-        };
+      getAllRam(resultContainer)
+      break;
     case 'Browse Storage':
-        return function () {
-            // Callback function for Storage
-            console.log(ssdData);
-        };
+      getAllStorage(resultContainer)
+      break;
     case 'Browse Cases':
-        return function () {
-            // Callback function for Cases
-            console.log(caseData);
-        };
+      getAllCases(resultContainer)
+      break;
     case 'Browse PSUs':
-        return function () {
-            // Callback function for PSUs
-            console.log(powerData);
-        };
+      getAllPsus(resultContainer)
+      break;
     case 'Browse All':
-        return function () {
-            // Callback function for All
-            console.log(partsData);
-        };
+      getAllCpus(resultContainer)
+      getAllBoards(resultContainer)
+      getAllCoolers(resultContainer)
+      getAllGpus(resultContainer)
+      getAllRam(resultContainer)
+      getAllStorage(resultContainer)
+      getAllCases(resultContainer)
+      getAllPsus(resultContainer)
+      break;
     default:
         return function () {
             // Default Callback function
@@ -271,7 +257,7 @@ function getAllCpus (resultContainer) {
 
     const image = $('<img>' , {
       src: `assets/images/cpu/cpu${cpu.id}.jpg`,
-      width: `8vw`,
+      width: `10vw`,
       height: `20vh`
     })
 
@@ -337,7 +323,7 @@ function getAllBoards (resultContainer) {
 
     const image = $('<img>' , {
       src: `assets/images/motherboards/board${board.id}.jpg`,
-      width: `8vw`,
+      width: `10vw`,
       height: `20vh`
     })
 
@@ -392,7 +378,7 @@ function getAllCoolers(resultContainer) {
 
     const image = $('<img>' , {
       src: `assets/images/cpu_cooler/cool${cooler.id}.jpg`,
-      width: `8vw`,
+      width: `10vw`,
       height: `20vh`
     })
 
@@ -451,7 +437,7 @@ function getAllGpus(resultContainer) {
 
     const image = $('<img>' , {
       src: `assets/images/video_cards/card${gpu.id}.jpg`,
-      width: `8vw`,
+      width: `10vw`,
       height: `20vh`
     })
 
@@ -459,22 +445,319 @@ function getAllGpus(resultContainer) {
     productPanel.append(gpuInfo)
     resultContainer.append(productPanel)
  }
-)
+
 // get new image for NVIDIA GPU number 2
-}
+)}
 
 function getAllRam(resultContainer) {
+  ramData.forEach((ram) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${ram.id}`
+    })
 
-}
+    const ramInfo = $('<div>',{
+      class: 'ram-card'
+    })
+
+    const ramTitle = $('<h>', {
+      class: 'title',
+      text: `${ram.name_ram}`
+    })
+    ramInfo.append(ramTitle)
+
+    let ddr
+    if (ram.ddr5 === true) {
+      ddr = 'DDR5'
+    } else {
+      ddr = 'DDR4'
+    }
+    const ramStats = $('<p>', {
+      html: `Speed: ${ram.speed} <br>
+      CAS Latency: ${ram.cas_latency} <br>
+      Modules: ${ram.modules} <br>
+      Memory Type: ${ddr}`
+  });
+    ramInfo.append(ramStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${ram.price}`
+    })
+    ramInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: ram.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    ramInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/ram/ram${ram.id}.jpg`,
+      width: `10vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(ramInfo)
+    resultContainer.append(productPanel)
+ }
+
+)}
 
 function getAllStorage(resultContainer) {
+  ssdData.forEach((ssd) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${ssd.id}`
+    })
 
-}
+    const ssdInfo = $('<div>',{
+      class: 'ssd-card'
+    })
+
+    const ssdTitle = $('<h>', {
+      class: 'title',
+      text: `${ssd.name_storage}`
+    })
+    ssdInfo.append(ssdTitle)
+
+    let nvm
+    if ( ssd.nvme === true ) {
+      nvm = 'Yes'
+    } else {
+      nvm = 'No'
+    }
+    const ssdStats = $('<p>', {
+      html: `Capacity: ${ssd.capacity} <br>
+      Interface: ${ssd.interface} <br>
+      NVME: ${nvm} <br>
+      `
+  });
+    ssdInfo.append(ssdStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${ssd.price}`
+    })
+    ssdInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: ssd.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    ssdInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/storage/storage${ssd.id}.jpg`,
+      width: `10vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(ssdInfo)
+    resultContainer.append(productPanel)
+ }
+
+)}
 
 function getAllCases(resultContainer) {
+  caseData.forEach((pcCase) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${pcCase.id}`
+    })
 
-}
+    const caseInfo = $('<div>',{
+      class: 'case-card'
+    })
+
+    const caseTitle = $('<h>', {
+      class: 'title',
+      text: `${pcCase.name_case}`
+    })
+    caseInfo.append(caseTitle)
+
+    const caseStats = $('<p>', {
+      html: `Dimensions: ${pcCase.dimensions} <br>
+      Type: ${pcCase.type_case}`
+    });
+    caseInfo.append(caseStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${pcCase.price}`
+    })
+    caseInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: pcCase.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    caseInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/cases/case${pcCase.id}.jpg`,
+      width: `10vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(caseInfo)
+    resultContainer.append(productPanel)
+ }
+
+)}
 
 function getAllPsus(resultContainer) {
+  powerData.forEach((psu) => {
+    const productPanel = $('<div>', {
+      class: 'panel',
+      id: `${psu.id}`
+    })
 
+    const psuInfo = $('<div>',{
+      class: 'psu-card'
+    })
+
+    const psuTitle = $('<h>', {
+      class: 'title',
+      text: `${psu.name_supply}`
+    })
+    psuInfo.append(psuTitle)
+
+    const psuStats = $('<p>', {
+      html: `Rating: ${psu.rating} <br>
+      Unit Type: ${psu.type_supply} <br>
+      Wattage: ${psu.wattage}`
+    });
+    psuInfo.append(psuStats)
+
+    const price = $('<p>', {
+      class: 'price',
+      text: `$${psu.price}`
+    })
+    psuInfo.append(price)
+
+    const linkContainer = $('<p>', {
+      class: 'link-container'
+    })
+
+    const link = $('<a>', {
+      class: 'link',
+      text: 'Find Online',
+      href: psu.link,
+      target: '_blank'
+    })
+    linkContainer.append(link)
+    psuInfo.append(linkContainer)
+
+    const image = $('<img>' , {
+      src: `assets/images/power_supplies/ps${psu.id}.jpg`,
+      width: `10vw`,
+      height: `20vh`
+    })
+
+    productPanel.append(image)
+    productPanel.append(psuInfo)
+    resultContainer.append(productPanel)
+ }
+
+)}
+
+function signInWindow () {
+  welcomeMessage.hide()
+
+  const signInWindow = $('<div>', {
+    class: 'sign_in_window'
+  })
+
+  const inputName = $('<input>', {
+    type: 'text',
+    id: 'inputName',
+    placeholder: "Username"
+  })
+
+  const inputPass = $('<input>', {
+    type: 'text',
+    id: 'inputPass',
+    placeholder: 'Password'
+  })
+
+  const existingProfileBtn = $('<button>',{
+    id: 'existingProfileBtn',
+    text: 'Sign In'
+  })
+  existingProfileBtn.on('click', async (e) => {
+    console.log(inputName.val(),inputPass.val())
+    let userPass = inputPass.val()
+    let user = inputName.val()
+    let userData = {
+      userName: user,
+      userPassword: userPass
+    }
+    try {
+      const response = await $.ajax({
+        url: 'http://localhost:3000/api/sign-in',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(userData),
+      })
+      console.log(response)
+    } catch(error) {
+      console.error('Error:',error)
+    }
+  })
+
+  const newUserBtn = $('<button>', {
+    id: 'newUserBtn',
+    text: 'Create User'
+  })
+  newUserBtn.on('click', async (e) => {
+    console.log(inputName.val(),inputPass.val())
+    let userPass = inputPass.val()
+    let user = inputName.val()
+    let userData = {
+      userName: user,
+      userPassword: userPass
+    }
+    try {
+      const response = await $.ajax({
+        url: 'http://localhost:3000/api/create-user',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(userData),
+      })
+      console.log(response)
+    } catch(error) {
+      console.error('Error:',error)
+    }
+  })
+
+  signInWindow.append(inputName)
+  signInWindow.append(inputPass)
+  signInWindow.append(existingProfileBtn)
+  signInWindow.append(newUserBtn)
+  container.append(signInWindow)
 }

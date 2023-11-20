@@ -150,6 +150,19 @@ app.post('/api/sign-in', async (req,res) => {
   }
 })
 
+app.post('/api/create-user', async (req,res) => {
+  console.log('Creating User')
+  const userData = req.body
+  console.log(userData)
+  try {
+    const results = await pool.query(`INSERT INTO users (name_user,password_user) VALUES ($1,$2);` ,[userData.userName, userData.userPassword])
+    res.status(200).send('User Created Successfully')
+  } catch(err) {
+  console.error(err)
+  res.status(400).send('Bad Request')
+  }
+})
+
 app.use((req,res,next) => {
   next({message: 'The path you are looking for does not exist', status:400})
 })
