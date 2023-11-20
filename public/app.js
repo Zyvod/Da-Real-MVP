@@ -245,38 +245,38 @@ async function populateResults(resultContainer,content,signedIn) {
   resultContainer.empty();
   switch (content) {
     case 'Browse CPUs':
-      getAllCpus(resultContainer,signedIn)
+      getAllCpus(cpuData,resultContainer,signedIn)
       break;
     case 'Browse Motherboards':
-      getAllBoards(resultContainer,signedIn)
+      getAllBoards(boardData,resultContainer,signedIn)
       break;
     case 'Browse CPU Coolers':
-      getAllCoolers(resultContainer,signedIn)
+      getAllCoolers(coolerData,resultContainer,signedIn)
       break;
     case 'Browse GPUs':
-      getAllGpus(resultContainer,signedIn)
+      getAllGpus(gpuData,resultContainer,signedIn)
       break;
     case 'Browse Memory':
-      getAllRam(resultContainer,signedIn)
+      getAllRam(ramData,resultContainer,signedIn)
       break;
     case 'Browse Storage':
-      getAllStorage(resultContainer,signedIn)
+      getAllStorage(ssdData,resultContainer,signedIn)
       break;
     case 'Browse Cases':
-      getAllCases(resultContainer,signedIn)
+      getAllCases(caseData,resultContainer,signedIn)
       break;
     case 'Browse PSUs':
-      getAllPsus(resultContainer,signedIn)
+      getAllPsus(powerData,resultContainer,signedIn)
       break;
     case 'Browse All':
-      getAllCpus(resultContainer,signedIn)
-      getAllBoards(resultContainer,signedIn)
-      getAllCoolers(resultContainer,signedIn)
-      getAllGpus(resultContainer,signedIn)
-      getAllRam(resultContainer,signedIn)
-      getAllStorage(resultContainer,signedIn)
-      getAllCases(resultContainer,signedIn)
-      getAllPsus(resultContainer,signedIn)
+      getAllCpus(cpuData,resultContainer,signedIn)
+      getAllBoards(boardData,resultContainer,signedIn)
+      getAllCoolers(coolerData,resultContainer,signedIn)
+      getAllGpus(gpuData,resultContainer,signedIn)
+      getAllRam(ramData,resultContainer,signedIn)
+      getAllStorage(ssdData,resultContainer,signedIn)
+      getAllCases(caseData,resultContainer,signedIn)
+      getAllPsus(powerData,resultContainer,signedIn)
       break;
     default:
         return function () {
@@ -306,8 +306,8 @@ async function getAllData() {
   }
 }
 // consider passing an array or object through each function so we can reuse these functions for generating user lists
-function getAllCpus (resultContainer,signedIn) {
-  cpuData.forEach((cpu) => {
+function getAllCpus (array,resultContainer,signedIn) {
+  array.forEach((cpu) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${cpu.id}`
@@ -378,8 +378,8 @@ function getAllCpus (resultContainer,signedIn) {
  }
 )}
 
-function getAllBoards (resultContainer,signedIn) {
-  boardData.forEach((board) => {
+function getAllBoards (array,resultContainer,signedIn) {
+  array.forEach((board) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${board.id}`
@@ -460,8 +460,8 @@ function getAllBoards (resultContainer,signedIn) {
   }
 )}
 
-function getAllCoolers(resultContainer,signedIn) {
-  coolerData.forEach((cooler) => {
+function getAllCoolers(array,resultContainer,signedIn) {
+  array.forEach((cooler) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${cooler.id}`
@@ -531,8 +531,8 @@ function getAllCoolers(resultContainer,signedIn) {
  }
 )}
 
-function getAllGpus(resultContainer,signedIn) {
-  gpuData.forEach((gpu) => {
+function getAllGpus(array,resultContainer,signedIn) {
+  array.forEach((gpu) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${gpu.id}`
@@ -608,8 +608,8 @@ function getAllGpus(resultContainer,signedIn) {
 // get new image for NVIDIA GPU number 2
 )}
 
-function getAllRam(resultContainer,signedIn) {
-  ramData.forEach((ram) => {
+function getAllRam(array,resultContainer,signedIn) {
+  array.forEach((ram) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${ram.id}`
@@ -687,8 +687,8 @@ function getAllRam(resultContainer,signedIn) {
 
 )}
 
-function getAllStorage(resultContainer,signedIn) {
-  ssdData.forEach((ssd) => {
+function getAllStorage(array,resultContainer,signedIn) {
+  array.forEach((ssd) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${ssd.id}`
@@ -766,8 +766,8 @@ function getAllStorage(resultContainer,signedIn) {
 
 )}
 
-function getAllCases(resultContainer,signedIn) {
-  caseData.forEach((pcCase) => {
+function getAllCases(array,resultContainer,signedIn) {
+  array.forEach((pcCase) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${pcCase.id}`
@@ -837,8 +837,8 @@ function getAllCases(resultContainer,signedIn) {
 
 )}
 
-function getAllPsus(resultContainer,signedIn) {
-  powerData.forEach((psu) => {
+function getAllPsus(array,resultContainer,signedIn) {
+  array.forEach((psu) => {
     const productPanel = $('<div>', {
       class: 'panel',
       id: `${psu.id}`
@@ -1030,6 +1030,17 @@ function generateUserPage () {
     class: 'panelBtn',
     text: 'View Saved Builds'
   })
+  viewListsBtn.on('click', async (e) => {
+    try{
+      const response = await $.ajax({
+        url: `http://localhost:3000/api/user-builds/${loggedId}`,
+        type: 'GET',
+      })
+      generateBuildList(response)
+    } catch(error) {
+      console.error('Error:',error)
+    }
+  })
   viewListsPanel.append(viewListsBtn)
 
   userPage.append(createListPanel)
@@ -1084,4 +1095,110 @@ function selectedBuild() {
   let userPage = $('.browseSelect')
   userPage.hide()
   listOfParts(signedIn)
+}
+
+function generateBuildList(data) {
+  let userPage = $('.browseSelect')
+  userPage.empty()
+  console.log(data)
+
+  data.forEach((build) => {
+
+    const buildPanel = $('<div>', {
+      class: 'panel'
+    })
+
+    const buildBtn = $('<button>',{
+      class: 'panelBtn',
+      text: `${build.list_name}`
+    })
+    buildBtn.on('click', (e) => {
+      userPage.hide()
+      generateBuild(build)
+    })
+
+    buildPanel.append(buildBtn)
+    userPage.append(buildPanel)
+  })
+}
+
+async function generateBuild(build) {
+  let log = false
+  let buildId = build.id
+  const browseSelect = $('<div>', {
+    class: 'browseSelect',
+    id: 'browseSelect'
+  })
+
+
+  container.append(browseSelect)
+
+  if ( build.cpu !== 0) {
+    cpu = build.cpu
+    getAllCpus([cpuData[cpu-1]],browseSelect,log)
+  }
+
+  if ( build.motherboard !== 0) {
+    board = build.motherboard
+    getAllBoards([boardData[board-1]],browseSelect,log)
+  }
+
+  if ( build.cpu_cooler !== 0) {
+    cooler = build.cpu_cooler
+    getAllCoolers([coolerData[cooler-1]],browseSelect,log)
+  }
+
+  if ( build.video_card !== 0) {
+    gpu = build.video_card
+    getAllGpus([gpuData[gpu-1]],browseSelect,log)
+  }
+
+  if ( build.ram !== 0) {
+    memory = build.ram
+    getAllRam([ramData[memory-1]],browseSelect,log)
+  }
+
+  if ( build.storage !== 0) {
+    ssd = build.storage
+    getAllStorage([ssdData[ssd-1]],browseSelect,log)
+  }
+
+  if ( build.case_id !== 0) {
+    pcCase = build.case_id
+    getAllCases([caseData[pcCase-1]],browseSelect,log)
+  }
+
+  if ( build.power_supply !== 0) {
+    psu = build.power_supply
+    getAllPsus([powerData[psu-1]],browseSelect,log)
+  }
+
+  const deletePanel = $('<div>', {
+    class: 'panel'
+  })
+
+  const deleteBtn = $('<button>', {
+    class: 'panelBtn',
+    text: 'Delete Build'
+  })
+  deleteBtn.on('click', async (e) => {
+    let userData = {
+      id: loggedId,
+      listId: buildId
+    }
+    try{
+      const response = await $.ajax({
+          url: `http://localhost:3000/api/delete-build`,
+          type: 'DELETE',
+          contentType: 'application/json',
+          data: JSON.stringify(userData),
+    })
+    generateUserPage()
+    } catch(error) {
+      console.error('Error:',error)
+    }
+  })
+
+  deletePanel.append(deleteBtn)
+  browseSelect.append(deletePanel)
 }

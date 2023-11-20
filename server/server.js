@@ -136,6 +136,18 @@ app.get('/api/ALL', async (req,res) => {
   }
 })
 
+app.get('/api/user-builds/:id', async (req,res) => {
+  console.log('Fetching Builds')
+  const userData = req.params.id
+  try {
+    const result = await pool.query(`SELECT * FROM build_lists WHERE id_user=$1;`,[userData])
+    res.status(200).send(result.rows)
+  } catch(err) {
+    console.error(err)
+    res.status(400).send('Bad Request')
+  }
+})
+
 app.post('/api/sign-in', async (req,res) => {
   console.log('Users Incoming')
   const userData = req.body
@@ -171,6 +183,20 @@ app.put('/api/create-list', async (req,res) => {
     const result = await pool.query(`INSERT INTO build_lists (id_user, list_name,cpu,cpu_cooler,motherboard,ram,storage,video_card,case_id,power_supply) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`,[userData.userId,userData.buildName, userData.cpu, userData.cooler, userData.board, userData.ram, userData.ssd, userData.gpu, userData.buildCase, userData.power
     ])
     res.status(200).send('List Created Successfully')
+  } catch(err) {
+    console.error(err)
+    res.status(400).send('Bad Request')
+  }
+})
+
+app.delete('/api/delete-build', async (req,res) => {
+  console.log('Deleting list')
+  const userData = req.body
+  console.log(userData)
+
+  try{
+    const result = await pool.query(`DELETE FROM build_lists WHERE id=$1 AND id_user=$2;`, [userData.listId,userData.id])
+    res.status(200).send('List Deleted Successfully')
   } catch(err) {
     console.error(err)
     res.status(400).send('Bad Request')
