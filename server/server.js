@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 const { Pool } = pg;
 dotenv.config();
 
-const APIPORT = 5432;
+const APIPORT = 3000;
 
 const app = express();
 
@@ -212,7 +212,7 @@ app.use((err,req,res,next) => {
   res.status(err.status).json({error:err})
 })
 
-app.listen(APIPORT, (req,res) => {
+app.listen(APIPORT || 3000, (req,res) => {
   console.log('Server Is Listening On Port 3000')
 })
 
