@@ -32,7 +32,12 @@ let currentBuild = {
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
-  getAllData();
+  if (typeof jQuery !== 'undefined' ) {
+    console.log('jQuery Is Loaded!')
+    getAllData()
+  } else {
+    console.error('JQuery is not loaded!')
+  }
 })
 // getAllData();
 
