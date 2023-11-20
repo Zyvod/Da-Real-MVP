@@ -31,11 +31,15 @@ let currentBuild = {
   buildName: 0
 }
 
+
 getAllData();
 
 homeBtn.on('click', () => {
   let browseSelect = $('.browseSelect')
   $(browseSelect).hide();
+  if (signedIn === true ) {
+    signBtn.text('User Page')
+  }
   welcomeMessage.show();
 })
 
@@ -1193,7 +1197,9 @@ async function generateBuild(build) {
           contentType: 'application/json',
           data: JSON.stringify(userData),
     })
-    generateUserPage()
+    let browseSelect = $('.browseSelect')
+    $(browseSelect).hide();
+    welcomeMessage.show();
     } catch(error) {
       console.error('Error:',error)
     }

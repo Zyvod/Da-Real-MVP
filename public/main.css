@@ -1,6 +1,15 @@
 body {
-  background-color:  #E5DCC5  ;
+  background-color:  #E5DCC5;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  background-image: url('assets/images/Background/PC.jpg');
+  background-size: 100% auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  background-position: fixed;
 }
+
 
 /* color palette - 1
 #fffcf2 - white
@@ -23,7 +32,7 @@ body {
   margin: auto;
   padding: 2em;
   border-radius: 20px;
-  background-color: #2D2D2A  ;
+  background-color: rgb(45, 45, 42, 0.5) ;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -32,7 +41,7 @@ body {
 #welcomeHeader {
   width: 90%;
   height: 5%;
-  background-color:#4E576A ;
+  background-color:rgb(78, 87, 106, 0.7);
   border-radius: 20px;
   padding: 1em;
   display: flexbox;
@@ -49,12 +58,19 @@ body {
   background-color: #848FA5;
   font-weight: bold;
   font-size: .5em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family:'Kdam Thmor Pro', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+#homeBtn:hover{
+background-color: #4E576A;
 }
 
 #welcomemessage {
   width: 60%;
   height: 50%;
-  background-color:#4E576A;
+  background-color:rgb(78, 87, 106, 0.7);
   border-radius: 20px;
   padding: 1em;
   text-align: left;
@@ -80,7 +96,14 @@ body {
   background-color: #848FA5;
   font-weight: bold;
   font-size: 1em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family:'Kdam Thmor Pro', sans-serif;
+  transition: background-color 0.3s ease;
 }
+
+#signBtn:hover{
+  background-color: #4E576A;
+  }
 
 #browseBtn {
   width: 15%;
@@ -91,11 +114,18 @@ body {
   background-color: #848FA5;
   font-weight: bold;
   font-size: 1em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family:'Kdam Thmor Pro', sans-serif;
+  transition: background-color 0.3s ease;
 }
+
+#browseBtn:hover{
+  background-color: #4E576A;
+  }
 
 .browseSelect {
   width: 90vw;
-  background-color:#4E576A ;
+  background-color:rgb(78, 87, 106, 0.7);;
   border-radius: 20px;
   margin-bottom: 5vh;
   padding: 1em;
@@ -111,7 +141,7 @@ body {
   /* max-width: 20vw; */
   /* max-height: 35vh; */
   /* height: 35vh; */
-  background-color:#D45113;
+  background-color:rgb(212, 79, 18, 0.8);
   border-radius: 20px;
   padding: 1.2em;
   margin-left: 2vw;
@@ -134,8 +164,34 @@ body {
   background-color: #848FA5;
   font-weight: bold;
   font-size: 1.2em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+button:hover {
+background-color: #4E576A;
+}
+
+button{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family:'Kdam Thmor Pro', sans-serif;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .img {
   margin-right: 1em;
+}
+
+input {
+  padding: 10px;
+  border: 1px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease;
+  margin-right: .5em;
+  margin-left:  .5em;
+}
+
+input:hover , input:focus {
+  border-color: #2D2D2A;
 }
