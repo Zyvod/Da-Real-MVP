@@ -225,7 +225,7 @@ async function listOfParts(signedIn) {
       }
       try {
         const response = await $.ajax({
-          url: 'https://mvp-project-5tx5.onrender.com/api/create-list',
+          url: 'https://mvp-project-5tx5.onrender.com/api/create-list?ssl=true',
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(userData),
@@ -299,7 +299,7 @@ async function populateResults(resultContainer,content,signedIn) {
 async function getAllData() {
   try{
     const response = await $.ajax({
-      url: 'https://mvp-project-5tx5.onrender.com/api/ALL',
+      url: 'https://mvp-project-5tx5.onrender.com/api/ALL?ssl=true',
       type: 'GET'
     })
     partsData = response
@@ -954,7 +954,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'https://mvp-project-5tx5.onrender.com/api/sign-in',
+        url: 'https://mvp-project-5tx5.onrender.com/api/sign-in?ssl=true',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -985,7 +985,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'https://mvp-project-5tx5.onrender.com/api/create-user',
+        url: 'https://mvp-project-5tx5.onrender.com/api/create-user?ssl=true',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -1044,7 +1044,7 @@ function generateUserPage () {
   viewListsBtn.on('click', async (e) => {
     try{
       const response = await $.ajax({
-        url: `https://mvp-project-5tx5.onrender.com/api/user-builds/${loggedId}`,
+        url: `https://mvp-project-5tx5.onrender.com/api/user-builds/${loggedId}?ssl=true`,
         type: 'GET',
       })
       generateBuildList(response)
@@ -1199,7 +1199,7 @@ async function generateBuild(build) {
     }
     try{
       const response = await $.ajax({
-          url: `https://mvp-project-5tx5.onrender.com/api/delete-build`,
+          url: `https://mvp-project-5tx5.onrender.com/api/delete-build?ssl=true`,
           type: 'DELETE',
           contentType: 'application/json',
           data: JSON.stringify(userData),
