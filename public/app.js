@@ -218,7 +218,7 @@ async function listOfParts(signedIn) {
       }
       try {
         const response = await $.ajax({
-          url: 'http://localhost:3000/api/create-list',
+          url: 'https://mvp-project-5tx5.onrender.com/api/create-list',
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(userData),
@@ -292,7 +292,7 @@ async function populateResults(resultContainer,content,signedIn) {
 async function getAllData() {
   try{
     const response = await $.ajax({
-      url: 'http://localhost:3000/api/ALL',
+      url: 'https://mvp-project-5tx5.onrender.com/api/ALL',
       type: 'GET'
     })
     partsData = response
@@ -947,7 +947,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'http://localhost:3000/api/sign-in',
+        url: 'https://mvp-project-5tx5.onrender.com/api/sign-in',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -978,7 +978,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'http://localhost:3000/api/create-user',
+        url: 'https://mvp-project-5tx5.onrender.com/api/create-user',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -1037,7 +1037,7 @@ function generateUserPage () {
   viewListsBtn.on('click', async (e) => {
     try{
       const response = await $.ajax({
-        url: `http://localhost:3000/api/user-builds/${loggedId}`,
+        url: `https://mvp-project-5tx5.onrender.com/api/user-builds/${loggedId}`,
         type: 'GET',
       })
       generateBuildList(response)
@@ -1192,7 +1192,7 @@ async function generateBuild(build) {
     }
     try{
       const response = await $.ajax({
-          url: `http://localhost:3000/api/delete-build`,
+          url: `https://mvp-project-5tx5.onrender.com/api/delete-build`,
           type: 'DELETE',
           contentType: 'application/json',
           data: JSON.stringify(userData),
