@@ -31,8 +31,10 @@ let currentBuild = {
   buildName: 0
 }
 
-
-getAllData();
+document.addEventListener('DOMContentLoaded', (e) => {
+  getAllData();
+})
+// getAllData();
 
 homeBtn.on('click', () => {
   let browseSelect = $('.browseSelect')
