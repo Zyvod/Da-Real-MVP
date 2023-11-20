@@ -26,8 +26,9 @@ let currentBuild = {
   gpu: 0,
   ram: 0,
   ssd: 0,
-  case: 0,
+  buildCase: 0,
   power: 0,
+  buildName: 0
 }
 
 getAllData();
@@ -58,8 +59,11 @@ async function listOfParts(signedIn) {
     id: 'browseSelect'
   })
     // browseSelect.empty();
-
-  const cpuPanel = $('<div>')
+    let cpuPanel
+  if ( currentBuild.cpu !== 0 ){
+    cpuPanel = currentBuild.cpu
+  } else {
+    cpuPanel = $('<div>')
     cpuPanel.attr('class','panel')
   const cpuBtn = $('<button>')
     cpuBtn.text('Browse CPUs')
@@ -68,8 +72,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     cpuPanel.append(cpuBtn)
+  }
 
-  const boardPanel = $('<div>')
+  let boardPanel
+  if ( currentBuild.board !== 0 ){
+    boardPanel = currentBuild.board
+  } else {
+    boardPanel = $('<div>')
     boardPanel.attr('class','panel')
   const boardBtn = $('<button>')
     boardBtn.text('Browse Motherboards')
@@ -78,8 +87,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     boardPanel.append(boardBtn)
+  }
 
-  const coolerPanel = $('<div>')
+    let coolerPanel
+    if ( currentBuild.cooler!== 0 ){
+      coolerPanel = currentBuild.cooler
+    } else {
+    coolerPanel = $('<div>')
     coolerPanel.attr('class','panel')
   const coolerBtn = $('<button>')
     coolerBtn.text('Browse CPU Coolers')
@@ -88,8 +102,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     coolerPanel.append(coolerBtn)
+  }
 
-  const gpuPanel = $('<div>')
+    let gpuPanel
+    if ( currentBuild.gpu !== 0 ){
+      gpuPanel = currentBuild.gpu
+    } else {
+    gpuPanel = $('<div>')
     gpuPanel.attr('class','panel')
   const gpuBtn = $('<button>')
     gpuBtn.text('Browse GPUs')
@@ -98,8 +117,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     gpuPanel.append(gpuBtn)
+  }
 
-  const ramPanel = $('<div>')
+    let ramPanel
+    if ( currentBuild.ram !== 0 ){
+      ramPanel = currentBuild.ram
+    } else {
+    ramPanel = $('<div>')
     ramPanel.attr('class','panel')
   const ramBtn = $('<button>')
     ramBtn.text('Browse Memory')
@@ -108,8 +132,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     ramPanel.append(ramBtn)
+  }
 
-  const ssdPanel = $('<div>')
+    let ssdPanel
+    if ( currentBuild.ssd !== 0 ){
+      ssdPanel = currentBuild.ssd
+    } else {
+    ssdPanel = $('<div>')
     ssdPanel.attr('class','panel')
   const ssdBtn = $('<button>')
     ssdBtn.text('Browse Storage')
@@ -118,8 +147,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     ssdPanel.append(ssdBtn)
+  }
 
-  const casePanel = $('<div>')
+    let casePanel
+    if ( currentBuild.buildCase !== 0 ){
+      casePanel = currentBuild.buildCase
+    } else {
+    casePanel = $('<div>')
     casePanel.attr('class','panel')
   const caseBtn = $('<button>')
     caseBtn.text('Browse Cases')
@@ -128,8 +162,13 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     casePanel.append(caseBtn)
+  }
 
-  const powerPanel = $('<div>')
+    let powerPanel
+    if ( currentBuild.power !== 0 ){
+      powerPanel = currentBuild.power
+    } else {
+    powerPanel = $('<div>')
     powerPanel.attr('class','panel')
   const powerBtn = $('<button>')
     powerBtn.text('Browse PSUs')
@@ -138,6 +177,7 @@ async function listOfParts(signedIn) {
       populateResults(browseSelect, e.target.textContent,signedIn)
     })
     powerPanel.append(powerBtn)
+  }
 
   const allPanel =$('<div>')
     allPanel.attr('class','panel')
@@ -273,7 +313,8 @@ function getAllCpus (resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/cpu/cpu${cpu.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
@@ -282,9 +323,11 @@ function getAllCpus (resultContainer,signedIn) {
         text: 'Add To Build'
       })
       addBtn.on('click', (e) => {
-        selectedCpu = e.target.parentNode.parentNode.id
-        currentBuild.cpu = cpuData[selectedCpu-1]
+        selectedCpu = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.cpu = selectedCpu
         console.log(currentBuild.cpu)
+        selectedBuild()
       })
       cpuInfo.append(addBtn)
     }
@@ -352,13 +395,21 @@ function getAllBoards (resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/motherboards/board${board.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedBoard = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.board = selectedBoard
+        console.log(currentBuild)
+        selectedBuild()
       })
       boardInfo.append(addBtn)
     }
@@ -415,13 +466,21 @@ function getAllCoolers(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/cpu_cooler/cool${cooler.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedCooler = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.cooler = selectedCooler
+        console.log(currentBuild)
+        selectedBuild()
       })
       coolerInfo.append(addBtn)
     }
@@ -482,13 +541,21 @@ function getAllGpus(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/video_cards/card${gpu.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedGpu = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.gpu = selectedGpu
+        console.log(currentBuild)
+        selectedBuild()
       })
       gpuInfo.append(addBtn)
     }
@@ -554,13 +621,21 @@ function getAllRam(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/ram/ram${ram.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedRam = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.ram = selectedRam
+        console.log(currentBuild)
+        selectedBuild()
       })
       ramInfo.append(addBtn)
     }
@@ -625,13 +700,21 @@ function getAllStorage(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/storage/storage${ssd.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedSsd = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.ssd = selectedSsd
+        console.log(currentBuild)
+        selectedBuild()
       })
       ssdInfo.append(addBtn)
     }
@@ -688,13 +771,21 @@ function getAllCases(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/cases/case${pcCase.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedCase = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.buildCase = selectedCase
+        console.log(currentBuild)
+        selectedBuild()
       })
       caseInfo.append(addBtn)
     }
@@ -752,13 +843,21 @@ function getAllPsus(resultContainer,signedIn) {
     const image = $('<img>' , {
       src: `assets/images/power_supplies/ps${psu.id}.jpg`,
       width: `10vw`,
-      height: `20vh`
+      height: `20vh`,
+      class: 'img'
     })
 
     if ( signedIn === true ) {
       const addBtn = $('<button>', {
         class: 'addBtn',
         text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedPsu = e.target.parentNode.parentNode
+        // currentBuild.cpu = cpuData[selectedCpu-1]
+        currentBuild.power = selectedPsu
+        console.log(currentBuild)
+        selectedBuild()
       })
       psuInfo.append(addBtn)
     }
@@ -897,7 +996,25 @@ function generateUserPage () {
 }
 
 function newBuild() {
+ currentBuild  = {
+    cpu: 0,
+    board: 0,
+    cooler: 0,
+    gpu: 0,
+    ram: 0,
+    ssd: 0,
+    buildCase: 0,
+    power: 0,
+    buildName: 0
+}
   let userPage = $('.browseSelect')
   userPage.hide()
  listOfParts(signedIn)
+}
+
+function selectedBuild() {
+  // console.log(currentBuild.cpu.id)
+  let userPage = $('.browseSelect')
+  userPage.hide()
+  listOfParts(signedIn)
 }
