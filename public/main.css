@@ -93,7 +93,7 @@ body {
   font-size: 1em;
 }
 
-#browseSelect {
+.browseSelect {
   width: 75vw;
   background-color:#4E576A ;
   border-radius: 20px;

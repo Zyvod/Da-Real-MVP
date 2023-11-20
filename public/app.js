@@ -6,10 +6,7 @@ const homeBtn = $('#homeBtn')
 const welcomeHeader = $("welcomeHeader")
 const body = $('body')
 // https://mvp-project-5tx5.onrender.com Deployment URL
-const userData = {
-  userName: 'Jeff',
-  userPassword: '123abc'
-}
+
 
 let partsData
 let cpuData
@@ -20,17 +17,34 @@ let ramData
 let ssdData
 let caseData
 let powerData
+let signedIn = false
+let loggedId
+let currentBuild = {
+  cpu: 0,
+  board: 0,
+  cooler: 0,
+  gpu: 0,
+  ram: 0,
+  ssd: 0,
+  case: 0,
+  power: 0,
+}
 
 getAllData();
 
 homeBtn.on('click', () => {
+  let browseSelect = $('.browseSelect')
   $(browseSelect).hide();
   welcomeMessage.show();
 })
 
 signBtn.on('click', async (e) => {
   console.log('Btn worked');
+  if ( signedIn === true ) {
+    generateUserPage();
+  } else {
   signInWindow();
+  }
 })
 
 browseBtn.on('click', (e) => {
@@ -38,10 +52,12 @@ browseBtn.on('click', (e) => {
   listOfParts()
 })
 
-async function listOfParts() {
-  const browseSelect = $('<div>')
-    browseSelect.attr('id', 'browseSelect')
-    browseSelect.empty();
+async function listOfParts(signedIn) {
+  const browseSelect = $('<div>', {
+    class: 'browseSelect',
+    id: 'browseSelect'
+  })
+    // browseSelect.empty();
 
   const cpuPanel = $('<div>')
     cpuPanel.attr('class','panel')
@@ -49,7 +65,7 @@ async function listOfParts() {
     cpuBtn.text('Browse CPUs')
     cpuBtn.attr('class','panelBtn')
     cpuBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     cpuPanel.append(cpuBtn)
 
@@ -59,7 +75,7 @@ async function listOfParts() {
     boardBtn.text('Browse Motherboards')
     boardBtn.attr('class','panelBtn')
     boardBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     boardPanel.append(boardBtn)
 
@@ -69,7 +85,7 @@ async function listOfParts() {
     coolerBtn.text('Browse CPU Coolers')
     coolerBtn.attr('class','panelBtn')
     coolerBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     coolerPanel.append(coolerBtn)
 
@@ -79,7 +95,7 @@ async function listOfParts() {
     gpuBtn.text('Browse GPUs')
     gpuBtn.attr('class','panelBtn')
     gpuBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     gpuPanel.append(gpuBtn)
 
@@ -89,7 +105,7 @@ async function listOfParts() {
     ramBtn.text('Browse Memory')
     ramBtn.attr('class','panelBtn')
     ramBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     ramPanel.append(ramBtn)
 
@@ -99,7 +115,7 @@ async function listOfParts() {
     ssdBtn.text('Browse Storage')
     ssdBtn.attr('class','panelBtn')
     ssdBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     ssdPanel.append(ssdBtn)
 
@@ -109,7 +125,7 @@ async function listOfParts() {
     caseBtn.text('Browse Cases')
     caseBtn.attr('class','panelBtn')
     caseBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     casePanel.append(caseBtn)
 
@@ -119,7 +135,7 @@ async function listOfParts() {
     powerBtn.text('Browse PSUs')
     powerBtn.attr('class','panelBtn')
     powerBtn.on('click', async (e) => {
-      populateResults(browseSelect, e.target.textContent)
+      populateResults(browseSelect, e.target.textContent,signedIn)
     })
     powerPanel.append(powerBtn)
 
@@ -129,7 +145,7 @@ async function listOfParts() {
     allBtn.text('Browse All')
     allBtn.attr('class','panelBtn')
     allBtn.on('click', async (e) => {
-      populateResults(browseSelect,e.target.textContent)
+      populateResults(browseSelect,e.target.textContent,signedIn)
     })
     allPanel.append(allBtn)
 
@@ -145,47 +161,46 @@ async function listOfParts() {
   container.append(browseSelect)
 }
 
-async function populateResults(resultContainer,content) {
+async function populateResults(resultContainer,content,signedIn) {
   resultContainer.empty();
   switch (content) {
     case 'Browse CPUs':
-      getAllCpus(resultContainer)
+      getAllCpus(resultContainer,signedIn)
       break;
     case 'Browse Motherboards':
-      getAllBoards(resultContainer)
+      getAllBoards(resultContainer,signedIn)
       break;
     case 'Browse CPU Coolers':
-      getAllCoolers(resultContainer)
+      getAllCoolers(resultContainer,signedIn)
       break;
     case 'Browse GPUs':
-      getAllGpus(resultContainer)
+      getAllGpus(resultContainer,signedIn)
       break;
     case 'Browse Memory':
-      getAllRam(resultContainer)
+      getAllRam(resultContainer,signedIn)
       break;
     case 'Browse Storage':
-      getAllStorage(resultContainer)
+      getAllStorage(resultContainer,signedIn)
       break;
     case 'Browse Cases':
-      getAllCases(resultContainer)
+      getAllCases(resultContainer,signedIn)
       break;
     case 'Browse PSUs':
-      getAllPsus(resultContainer)
+      getAllPsus(resultContainer,signedIn)
       break;
     case 'Browse All':
-      getAllCpus(resultContainer)
-      getAllBoards(resultContainer)
-      getAllCoolers(resultContainer)
-      getAllGpus(resultContainer)
-      getAllRam(resultContainer)
-      getAllStorage(resultContainer)
-      getAllCases(resultContainer)
-      getAllPsus(resultContainer)
+      getAllCpus(resultContainer,signedIn)
+      getAllBoards(resultContainer,signedIn)
+      getAllCoolers(resultContainer,signedIn)
+      getAllGpus(resultContainer,signedIn)
+      getAllRam(resultContainer,signedIn)
+      getAllStorage(resultContainer,signedIn)
+      getAllCases(resultContainer,signedIn)
+      getAllPsus(resultContainer,signedIn)
       break;
     default:
         return function () {
-            // Default Callback function
-            console.log('Default Callback');
+            console.log('Error Page Timed Out');
         };
   }
 }
@@ -210,8 +225,8 @@ async function getAllData() {
     console.error('Error:',error)
   }
 }
-
-function getAllCpus (resultContainer) {
+// consider passing an array or object through each function so we can reuse these functions for generating user lists
+function getAllCpus (resultContainer,signedIn) {
   cpuData.forEach((cpu) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -261,13 +276,26 @@ function getAllCpus (resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      addBtn.on('click', (e) => {
+        selectedCpu = e.target.parentNode.parentNode.id
+        currentBuild.cpu = cpuData[selectedCpu-1]
+        console.log(currentBuild.cpu)
+      })
+      cpuInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(cpuInfo)
     resultContainer.append(productPanel)
  }
 )}
 
-function getAllBoards (resultContainer) {
+function getAllBoards (resultContainer,signedIn) {
   boardData.forEach((board) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -327,13 +355,21 @@ function getAllBoards (resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      boardInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(boardInfo)
     resultContainer.append(productPanel)
   }
 )}
 
-function getAllCoolers(resultContainer) {
+function getAllCoolers(resultContainer,signedIn) {
   coolerData.forEach((cooler) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -382,13 +418,21 @@ function getAllCoolers(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      coolerInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(coolerInfo)
     resultContainer.append(productPanel)
  }
 )}
 
-function getAllGpus(resultContainer) {
+function getAllGpus(resultContainer,signedIn) {
   gpuData.forEach((gpu) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -441,6 +485,14 @@ function getAllGpus(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      gpuInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(gpuInfo)
     resultContainer.append(productPanel)
@@ -449,7 +501,7 @@ function getAllGpus(resultContainer) {
 // get new image for NVIDIA GPU number 2
 )}
 
-function getAllRam(resultContainer) {
+function getAllRam(resultContainer,signedIn) {
   ramData.forEach((ram) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -505,6 +557,14 @@ function getAllRam(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      ramInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(ramInfo)
     resultContainer.append(productPanel)
@@ -512,7 +572,7 @@ function getAllRam(resultContainer) {
 
 )}
 
-function getAllStorage(resultContainer) {
+function getAllStorage(resultContainer,signedIn) {
   ssdData.forEach((ssd) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -568,6 +628,14 @@ function getAllStorage(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      ssdInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(ssdInfo)
     resultContainer.append(productPanel)
@@ -575,7 +643,7 @@ function getAllStorage(resultContainer) {
 
 )}
 
-function getAllCases(resultContainer) {
+function getAllCases(resultContainer,signedIn) {
   caseData.forEach((pcCase) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -623,6 +691,14 @@ function getAllCases(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      caseInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(caseInfo)
     resultContainer.append(productPanel)
@@ -630,7 +706,7 @@ function getAllCases(resultContainer) {
 
 )}
 
-function getAllPsus(resultContainer) {
+function getAllPsus(resultContainer,signedIn) {
   powerData.forEach((psu) => {
     const productPanel = $('<div>', {
       class: 'panel',
@@ -679,6 +755,14 @@ function getAllPsus(resultContainer) {
       height: `20vh`
     })
 
+    if ( signedIn === true ) {
+      const addBtn = $('<button>', {
+        class: 'addBtn',
+        text: 'Add To Build'
+      })
+      psuInfo.append(addBtn)
+    }
+
     productPanel.append(image)
     productPanel.append(psuInfo)
     resultContainer.append(productPanel)
@@ -690,7 +774,8 @@ function signInWindow () {
   welcomeMessage.hide()
 
   const signInWindow = $('<div>', {
-    class: 'sign_in_window'
+    class: 'sign_in_window',
+    id: 'SignInWindow'
   })
 
   const inputName = $('<input>', {
@@ -724,7 +809,13 @@ function signInWindow () {
         contentType: 'application/json',
         data: JSON.stringify(userData),
       })
-      console.log(response)
+      if ( response.length === 1) {
+        loggedId = response[0].id
+        signedIn = true
+        generateUserPage()
+      } else {
+        console.log('Login Error')
+      }
     } catch(error) {
       console.error('Error:',error)
     }
@@ -760,4 +851,53 @@ function signInWindow () {
   signInWindow.append(existingProfileBtn)
   signInWindow.append(newUserBtn)
   container.append(signInWindow)
+}
+
+function generateUserPage () {
+  let signInWindow = $('.sign_in_window')
+  signInWindow.empty();
+
+  welcomeMessage.hide();
+
+  console.log(loggedId)
+
+  const userPage = $('<div>', {
+    class: 'browseSelect',
+    id: 'userPage'
+  })
+
+  const createListPanel = $('<div>',{
+    class: 'panel'
+  })
+
+  const viewListsPanel = $('<div>',{
+    class: 'panel'
+  })
+
+  const createListBtn = $('<button>',{
+    id: 'createListBtn',
+    class: 'panelBtn',
+    text: 'Create New Build'
+  })
+  createListBtn.on('click', (e) => {
+    newBuild()
+  })
+  createListPanel.append(createListBtn)
+
+  const viewListsBtn = $('<button>',{
+    id: 'viewLIstsBtn',
+    class: 'panelBtn',
+    text: 'View Saved Builds'
+  })
+  viewListsPanel.append(viewListsBtn)
+
+  userPage.append(createListPanel)
+  userPage.append(viewListsPanel)
+  container.append(userPage)
+}
+
+function newBuild() {
+  let userPage = $('.browseSelect')
+  userPage.hide()
+ listOfParts(signedIn)
 }
