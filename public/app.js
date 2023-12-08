@@ -5,7 +5,7 @@ const welcomeMessage = $('#welcomemessage')
 const homeBtn = $('#homeBtn')
 const welcomeHeader = $("welcomeHeader")
 const body = $('body')
-// https://mvp-project-5tx5.onrender.com Deployment URL
+// https://mypcbuild-com.onrender.com Deployment URL
 
 
 let partsData
@@ -225,7 +225,7 @@ async function listOfParts(signedIn) {
       }
       try {
         const response = await $.ajax({
-          url: 'https://mypcbuild-com.onrender.com/api/create-list',
+          url: 'http://localhost:3000/api/create-list',
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(userData),
@@ -299,7 +299,7 @@ async function populateResults(resultContainer,content,signedIn) {
 async function getAllData() {
   try{
     const response = await $.ajax({
-      url: 'https://mypcbuild-com.onrender.com/api/ALL',
+      url: 'http://localhost:3000/api/ALL',
       type: 'GET'
     })
     partsData = response
@@ -954,7 +954,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'https://mypcbuild-com.onrender.com/api/sign-in',
+        url: 'http://localhost:3000/api/sign-in',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -985,7 +985,7 @@ function signInWindow () {
     }
     try {
       const response = await $.ajax({
-        url: 'https://mypcbuild-com.onrender.com/api/create-user',
+        url: 'http://localhost:3000/api/create-user',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userData),
@@ -1044,7 +1044,7 @@ function generateUserPage () {
   viewListsBtn.on('click', async (e) => {
     try{
       const response = await $.ajax({
-        url: `https://mypcbuild-com.onrender.com/api/user-builds/${loggedId}`,
+        url: `http://localhost:3000/api/user-builds/${loggedId}`,
         type: 'GET',
       })
       generateBuildList(response)
@@ -1199,7 +1199,7 @@ async function generateBuild(build) {
     }
     try{
       const response = await $.ajax({
-          url: `https://mypcbuild-com.onrender.com/api/delete-build`,
+          url: `http://localhost:3000/api/delete-build`,
           type: 'DELETE',
           contentType: 'application/json',
           data: JSON.stringify(userData),
